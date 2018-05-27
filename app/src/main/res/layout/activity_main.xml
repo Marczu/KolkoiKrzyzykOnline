@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FFF"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -16,8 +17,8 @@
             android:id="@+id/etInviteEmal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:ems="10"
+            android:layout_weight="0.5"
             android:hint="User Name"
             android:inputType="textEmailAddress" />
 
@@ -25,7 +26,7 @@
             android:id="@+id/buInvite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.25"
             android:onClick="btnInvite"
             android:text="Invite" />
 
@@ -33,7 +34,7 @@
             android:id="@+id/buAccept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.25"
             android:onClick="BuAccept"
             android:text="Accept" />
     </LinearLayout>
