@@ -4,15 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.google.firebase.analytics.FirebaseAnalytics
+import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.marcinmejner.kkoikrzyykonline.R.id.etInviteEmal
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
@@ -33,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     //vars
     var myEmail: String? = null
     var uid: String? = null
+    var playerSession: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,22 +56,52 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*Wysłanie zaproszenia do gracza o danym emailu*/
     fun btnInvite(view: View){
         Log.d(TAG, "BuInvite: invite clicked")
-
 
         myRef.child(getString(R.string.db_gracz)).child(beforeAt(etInviteEmal.text.toString()))
                 .child(getString(R.string.db_request)).push().setValue(myEmail)
 
+        startGame(beforeAt(etInviteEmal.text.toString()) + ":" + beforeAt(myEmail!!))
+
     }
 
+    /*Zaakceptowanie przyjetego zaproszenia*/
     fun buAccept(view: View){
 
+        myRef.child(getString(R.string.db_gracz)).child(beforeAt(etInviteEmal.text.toString()))
+                .child(getString(R.string.db_request)).push().setValue(myEmail)
+
+        startGame(beforeAt(myEmail!!) + ":" + beforeAt(etInviteEmal.text.toString()))
+
+    }
+
+    fun startGame(playerGameID: String){
+        playerSession = playerGameID
+        myRef.child(getString(R.string.db_playing)).child(playerGameID).removeValue()
     }
 
 
     fun BuClick(view: View){
-        Log.d(TAG, "BuClick: przycisk wciśniety ")
+        if(playerSession.length<=0){
+            return
+        }
+        val buSelected = view as Button
+        var cellID = 0
+        when (buSelected.getId()) {
+
+            R.id.bu1 -> cellID = 1
+            R.id.bu2 -> cellID = 2
+            R.id.bu3 -> cellID = 3
+            R.id.bu4 -> cellID = 4
+            R.id.bu5 -> cellID = 5
+            R.id.bu6 -> cellID = 6
+            R.id.bu7 -> cellID = 7
+            R.id.bu8 -> cellID = 8
+            R.id.bu9 -> cellID = 9
+        }
+        myRef.child(getString(R.string.db_playing)).child(playerSession).child("CellID $cellID").setValue(beforeAt(myEmail!!))
     }
 
     fun incommingRequest(){

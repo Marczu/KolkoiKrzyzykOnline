@@ -4,6 +4,7 @@
     <!--Firebase names-->
     <string name="db_gracz">Gracz</string>
     <string name="db_request">Request</string>
+    <string name="db_playing">Playing</string>
 
 
 </resources>
