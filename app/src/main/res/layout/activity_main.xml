@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,48 +36,13 @@
             android:text="Accept" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etMyEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.35"
-                android:hint="email"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/etMyPassword"
-                android:hint="password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.35"
-                android:ems="10"
-                android:inputType="textPassword" />
-
-            <Button
-                android:id="@+id/buLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="BuLogin"
-                android:text="Login" />
-        </LinearLayout>
-
-    </LinearLayout>
-
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical"
+        >
 
         <TableRow
             android:layout_width="match_parent"
@@ -173,5 +136,6 @@
         </TableRow>
 
     </TableLayout>
+
 
 </LinearLayout>

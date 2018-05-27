@@ -1,19 +1,13 @@
 package com.marcinmejner.kkoikrzyykonline
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import android.widget.Toast
-import com.google.firebase.auth.AuthResult
-import com.google.android.gms.tasks.Task
-import android.support.annotation.NonNull
-import android.support.v4.app.FragmentActivity
-import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.firebase.database.FirebaseDatabase
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +18,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var mAuth: FirebaseAuth
     lateinit var mAuthStateListener: FirebaseAuth.AuthStateListener
 
+    var database = FirebaseDatabase.getInstance()
+    var myRef = database.getReference()
+
+    //vars
+    var myEmail: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         setupFirebaseAuth()
+
+
     }
 
     public override fun onStart() {
@@ -54,34 +56,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun BuLogin(view: View){
-        Log.d(TAG, "BuLogin: ")
 
-        val email: String = etMyEmail.text.toString()
-        val password: String = etMyPassword.text.toString()
-        userLogin(email, password)
-
-    }
 
     fun BuClick(view: View){
         Log.d(TAG, "BuClick: przycisk wciśniety ")
     }
 
-    fun userLogin(email: String, password: String){
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
-                        val user = mAuth.currentUser
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.d(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(this@MainActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                    }
-                }
-    }
 
     private fun setupFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance()
@@ -91,11 +71,24 @@ class MainActivity : AppCompatActivity() {
 
             if (user != null) {
                 Log.d(TAG, "user signed_in:  " + user.uid)
+                myEmail = user.email
+
+                myRef.child("Gracz").child(beforeAt(myEmail!!)).child("Request").setValue(user.uid)
+
+                Log.d(TAG, "setupFirebaseAuth: email to: $myEmail")
             } else {
                 Log.d(TAG, "onAuthStateChanged: user signed_out")
+                Intent(this@MainActivity, LoginActivity::class.java).apply {
+                    startActivity(this)
+                }
             }
         }
     }
 
+    fun beforeAt(email: String): String{
+        var split = arrayOf(email.split("@"))
+
+        return split[0][0]
+    }
 
 }
