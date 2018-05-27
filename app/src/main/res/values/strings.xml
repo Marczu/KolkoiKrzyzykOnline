@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Kółko i krzyżyk online</string>
+
+    <!--Firebase names-->
+    <string name="db_gracz">Gracz</string>
+    <string name="db_request">Request</string>
+
+
 </resources>

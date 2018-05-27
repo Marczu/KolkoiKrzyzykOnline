@@ -4,17 +4,20 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.marcinmejner.kkoikrzyykonline.R.id.etInviteEmal
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
 
     //Firebase
-    lateinit var mFirebaseAnalytics: FirebaseAnalytics
     lateinit var mAuth: FirebaseAuth
     lateinit var mAuthStateListener: FirebaseAuth.AuthStateListener
 
@@ -28,7 +31,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         mAuth = FirebaseAuth.getInstance()
 
         setupFirebaseAuth()
@@ -48,7 +50,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun buInvite(view: View){
+    fun btnInvite(view: View){
+        Log.d(TAG, "BuInvite: invite clicked")
+
+
+        myRef.child(getString(R.string.db_gracz)).child(beforeAt(etInviteEmal.text.toString()))
+                .child(getString(R.string.db_request)).push().setValue(myEmail)
 
     }
 
@@ -57,9 +64,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     fun BuClick(view: View){
         Log.d(TAG, "BuClick: przycisk wciśniety ")
+    }
+
+    fun incommingRequest(){
+
     }
 
 
@@ -68,12 +78,13 @@ class MainActivity : AppCompatActivity() {
         mAuthStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             val user = firebaseAuth.currentUser
 
-
             if (user != null) {
                 Log.d(TAG, "user signed_in:  " + user.uid)
                 myEmail = user.email
 
-                myRef.child("Gracz").child(beforeAt(myEmail!!)).child("Request").setValue(user.uid)
+                myRef.child(getString(R.string.db_gracz)).child(beforeAt(myEmail!!)).child(getString(R.string.db_request)).setValue(user.uid)
+
+                incommingRequest()
 
                 Log.d(TAG, "setupFirebaseAuth: email to: $myEmail")
             } else {
@@ -89,6 +100,21 @@ class MainActivity : AppCompatActivity() {
         var split = arrayOf(email.split("@"))
 
         return split[0][0]
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+        when(id){
+            R.id.logout -> mAuth.signOut()
+        }
+
+        return true
     }
 
 }
