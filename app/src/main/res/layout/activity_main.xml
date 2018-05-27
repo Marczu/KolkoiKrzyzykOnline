@@ -43,22 +43,39 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/etMyEmail"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="BuLogin"
-            android:text="Login" />
+            <EditText
+                android:id="@+id/etMyEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35"
+                android:hint="email"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/etMyPassword"
+                android:hint="password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35"
+                android:ems="10"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/buLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="BuLogin"
+                android:text="Login" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <TableLayout
         android:layout_width="match_parent"

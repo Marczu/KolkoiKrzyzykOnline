@@ -13,11 +13,7 @@ import com.google.android.gms.tasks.Task
 import android.support.annotation.NonNull
 import android.support.v4.app.FragmentActivity
 import com.google.android.gms.tasks.OnCompleteListener
-
-
-
-
-
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -59,6 +55,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun BuLogin(view: View){
+        Log.d(TAG, "BuLogin: ")
+
+        val email: String = etMyEmail.text.toString()
+        val password: String = etMyPassword.text.toString()
+        userLogin(email, password)
 
     }
 
